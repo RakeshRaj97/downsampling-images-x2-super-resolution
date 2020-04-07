@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Downsize images at 2x using bicubi
 parser.add_argument("hr_img_dir", help="path to high resolution image dir")
 parser.add_argument("lr_img_dir", help="path to desired output dir for downsampled images")
 parser.add_argument("-k", "--keepdims", help="keep original image dimensions in downsampled images", action="store_true")
-args = parser.parse_args()
+args = parser.parse_args(["hr_img_dir","lr_img_dir","-k", "--keepdims"])
 
 hr_image_dir = args.hr_img_dir
 lr_image_dir = args.lr_img_dir
@@ -35,4 +35,4 @@ for filename in os.listdir(hr_image_dir):
     if args.keepdims:
         lr_image_2x = cv2.resize(lr_image_2x, hr_img_dims, interpolation=cv2.INTER_CUBIC)
 
-    cv2.imwrite((os.path.join(lr_image_dir + "/2x", filename), lr_image_2x))
+    cv2.imwrite(os.path.join(lr_image_dir + "/2x", filename), lr_image_2x)
