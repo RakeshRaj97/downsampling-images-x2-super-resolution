@@ -14,6 +14,9 @@ lr_image_dir = args.lr_img_dir
 
 #create LR image dirs
 os.makedirs(lr_image_dir + "/2x", exist_ok=True)
+os.makedirs(lr_image_dir + "/3x", exist_ok=True)
+os.makedirs(lr_image_dir + "/4x", exist_ok=True)
+os.makedirs(lr_image_dir + "/6x", exist_ok=True)
 
 supported_img_formats = (".bmp", ".dib", ".jpeg", ".jpg", ".jpe", ".jp2",
                          ".png", ".pbm", ".pgm", ".ppm", ".sr", ".ras", ".tif",
@@ -36,3 +39,27 @@ for filename in os.listdir(hr_image_dir):
         lr_image_2x = cv2.resize(lr_image_2x, hr_img_dims, interpolation=cv2.INTER_CUBIC)
 
     cv2.imwrite(os.path.join(lr_image_dir + "/2x", filename), lr_image_2x)
+
+    #Downsample image 3x
+    lr_img_3x = cv2.resize(hr_img, (0, 0), fx=(1 / 3), fy=(1 / 3),
+                           interpolation=cv2.INTER_CUBIC)
+    if args.keepdims:
+        lr_img_3x = cv2.resize(lr_img_3x, hr_img_dims,
+                               interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite(os.path.join(lr_image_dir + "/3x", filename), lr_img_3x)
+
+    # Downsample image 4x
+    lr_img_4x = cv2.resize(hr_img, (0, 0), fx=0.25, fy=0.25,
+                           interpolation=cv2.INTER_CUBIC)
+    if args.keepdims:
+        lr_img_4x = cv2.resize(lr_img_4x, hr_img_dims,
+                               interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite(os.path.join(lr_image_dir + "/4x", filename), lr_img_4x)
+
+    # Downsample image 6x
+    lr_img_6x = cv2.resize(hr_img, (0, 0), fx=1/6, fy=1/6,
+                           interpolation=cv2.INTER_CUBIC)
+    if args.keepdims:
+        lr_img_4x = cv2.resize(lr_img_6x, hr_img_dims,
+                               interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite(os.path.join(lr_image_dir + "/6x", filename), lr_img_6x)
